@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace V2Layground.ResourceApi.Controllers;
 
 [ApiController]
 [Route("[controller]")]
+[Authorize(Policy = "ApiScope")]
 public class WeatherForecastController : ControllerBase
 {
     private static readonly string[] Summaries = new[]

@@ -1,9 +1,14 @@
 using System.IdentityModel.Tokens.Jwt;
+using Microsoft.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddRazorPages();
+builder.Services.AddRazorPages(
+    options=>{
+        options.Conventions.AuthorizePage("/Weatherforecast");
+    }
+);
 
 JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
 
@@ -28,7 +33,10 @@ builder.Services.AddAuthentication(options =>
 
         options.SaveTokens = true;
     });
-
+builder.Services.AddHttpClient("resource-server-1-http-client", httpClient=>{
+   httpClient.BaseAddress = new Uri("https://localhost:6001/");
+   httpClient.DefaultRequestHeaders.Add(HeaderNames.Accept, "application/json");
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
