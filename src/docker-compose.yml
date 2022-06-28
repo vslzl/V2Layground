@@ -1,0 +1,55 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP .NET Core service.
+
+version: '3.4'
+
+services:
+  v2laygroundidentity:
+    image: v2laygroundidentity
+    build:
+      context: .
+      dockerfile: V2Layground.Identity/Dockerfile
+    ports:
+      - "5100:80"
+      - "5101:443"
+    environment:
+      - ASPNETCORE_URLS="https://+;http://+"
+      - ASPNETCORE_HTTPS_PORT=5101
+      - ASPNETCORE_ENVIRONMENT=Development
+      - IdentityAddress="https://localhost:...TODO; yorulduk"
+    volumes:
+      - ${HOME}/.microsoft/usersecrets/:/root/.microsoft/usersecrets
+      - ${HOME}/.aspnet/https:/root/.aspnet/https/
+
+  v2laygroundresourceapi:
+    image: v2laygroundresourceapi
+    build:
+      context: .
+      dockerfile: V2Layground.ResourceApi/Dockerfile
+    ports:
+      - "5200:80"
+      - "5201:443"
+    environment:
+      - ASPNETCORE_URLS="https://+;http://+"
+      - ASPNETCORE_HTTPS_PORT=5201
+      - ASPNETCORE_ENVIRONMENT=Development
+    volumes:
+      - ${HOME}/.microsoft/usersecrets/:/root/.microsoft/usersecrets
+      - ${HOME}/.aspnet/https:/root/.aspnet/https/
+
+
+
+  v2laygroundwebclient:
+    image: v2laygroundwebclient
+    build:
+      context: .
+      dockerfile: V2Layground.WebClient/Dockerfile
+    ports:
+      - "5300:80"
+      - "5301:443"
+    environment:
+      - ASPNETCORE_URLS="https://+;http://+"
+      - ASPNETCORE_HTTPS_PORT=5301
+      - ASPNETCORE_ENVIRONMENT=Development
+    volumes:
+      - ${HOME}/.microsoft/usersecrets/:/root/.microsoft/usersecrets
+      - ${HOME}/.aspnet/https:/root/.aspnet/https/

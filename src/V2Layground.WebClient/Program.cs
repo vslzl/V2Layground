@@ -20,7 +20,7 @@ builder.Services.AddAuthentication(options =>
     .AddCookie("Cookies")
     .AddOpenIdConnect("oidc", options =>
     {
-        options.Authority = "https://localhost:5001";
+        options.Authority = "http://v2laygroundidentity";
 
         options.ClientId = "web.client";
         options.ClientSecret = "49C1A7E1-0C79-4A89-A3D6-A37998FB86B0";
@@ -31,10 +31,11 @@ builder.Services.AddAuthentication(options =>
         options.Scope.Add("profile");
         options.Scope.Add("resource-server-1");
 
+        options.RequireHttpsMetadata = false;
         options.SaveTokens = true;
     });
 builder.Services.AddHttpClient("resource-server-1-http-client", httpClient=>{
-   httpClient.BaseAddress = new Uri("https://localhost:6001/");
+   httpClient.BaseAddress = new Uri("https://v2laygroundresourceapi/");
    httpClient.DefaultRequestHeaders.Add(HeaderNames.Accept, "application/json");
 });
 var app = builder.Build();
