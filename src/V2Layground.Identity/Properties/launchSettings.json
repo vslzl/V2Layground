@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "SelfHost": {
+    "V2Layground.Identity": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
